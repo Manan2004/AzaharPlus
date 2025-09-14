@@ -34,17 +34,9 @@ function pack_artifacts() {
         ARCHIVE_NAME="$REV_NAME"
     fi
 
-    # Create .zip/.tar.gz
-    if [ "$OS" = "windows" ]; then
-        ARCHIVE_FULL_NAME="$ARCHIVE_NAME.zip"
-        powershell Compress-Archive "$REV_NAME" "$ARCHIVE_FULL_NAME"
-    elif [ "$OS" = "android" ] || [ "$OS" = "macos" ]; then
-        ARCHIVE_FULL_NAME="$ARCHIVE_NAME.zip"
-        zip -r "$ARCHIVE_FULL_NAME" "$REV_NAME"
-    else
-        ARCHIVE_FULL_NAME="$ARCHIVE_NAME.tar.gz"
-        tar czvf "$ARCHIVE_FULL_NAME" "$REV_NAME"
-    fi
+    # Create .zip (Mac only)
+    ARCHIVE_FULL_NAME="$ARCHIVE_NAME.zip"
+    zip -r "$ARCHIVE_FULL_NAME" "$REV_NAME"
     mv "$ARCHIVE_FULL_NAME" artifacts/
      # Clean up created rev artifacts directory.
     rm -rf "$REV_NAME"
