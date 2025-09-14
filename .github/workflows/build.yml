@@ -89,7 +89,6 @@ jobs:
           path: artifacts/
 
   release:
-    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     needs: [macos-universal]
     permissions:
