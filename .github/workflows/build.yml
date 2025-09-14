@@ -87,3 +87,25 @@ jobs:
         with:
           name: ${{ env.OS }}-${{ env.TARGET }}
           path: artifacts/
+
+  release:
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    needs: [macos-universal]
+    permissions:
+      contents: write
+    steps:
+      - name: Download Mac Universal artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-universal
+          path: release-artifacts/
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-artifacts/*
+          tag_name: ${{ github.ref_name }}
+          name: "AzaharPlus ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
+          generate_release_notes: true
